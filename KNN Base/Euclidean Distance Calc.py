@@ -31,3 +31,6 @@ print("point is at:")
 print(point)
 print("Distances from the point to each point in the set:")
 print(distances)
+
+
+print(euclidian_distance(p1=w))
