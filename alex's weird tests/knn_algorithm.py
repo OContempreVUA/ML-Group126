@@ -4,7 +4,15 @@ import pandas as pd
 from IPython.display import display, Math
 from typing import Iterable, List, Dict, Tuple, Union, Optional
 import math
+import random as rand
+import matplotlib.pyplot as mpp
+
 sym.init_printing()
+
+class DimensionalityError(Exception):
+    def __init__(self):
+        super().__init__(self, "The dimensionality of the prediction point doesn't match the dimensionality of the dataset!")
+        return None
 
 def euclidian_distance2(feature_set_data: Iterable[Union[int, float]], feature_set_prediction: Iterable[Union[int, float]]) -> float:
     """
@@ -57,6 +65,9 @@ class KNN_classifier:
     def predict(self, pred_point: Iterable[Union[int, float]]) -> str:
         """Here the class uses the KNN algorithm to predict whether class a particular point belongs to"""
 
+        if self.data.shape[1]-1 != len(pred_point):
+            raise DimensionalityError()
+
         distances: Dict[float, Iterable[Union[float, int, str]]] = {}
 
         # here we go over each instance in the dataset 
@@ -99,3 +110,27 @@ class KNN_classifier:
                 continue
         
         return highest_class
+    
+
+dataset: np.ndarray = np.random.randint(low=0, high = 10, size=[20,3])
+print(dataset.shape)
+labels: List[str] = []
+
+for _ in range(0,dataset.shape[0]):
+    color: str = None
+    random_num: int = rand.random()
+    if random_num <0.5:
+        color = "blue"
+    elif random_num >0.8:
+        color = "red"
+    else:
+        color = "green"
+    labels.append(color)
+
+
+full_dataset = np.column_stack((dataset, labels))
+knn = KNN_classifier()
+knn.feed_data(full_dataset)
+print(knn.predict([3,3,3]))
+
+
