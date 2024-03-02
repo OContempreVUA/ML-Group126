@@ -9,6 +9,10 @@ import matplotlib.pyplot as mpp
 
 sym.init_printing()
 
+class K_Error(Exception):
+    def __init__(self):
+        super().__init__(self, "K is set too low for the classifier to work properly. Choose a K of 4 or higher.")
+
 class DimensionalityError(Exception):
     def __init__(self):
         super().__init__(self, "The dimensionality of the prediction point doesn't match the dimensionality of the dataset!")
@@ -132,5 +136,7 @@ full_dataset = np.column_stack((dataset, labels))
 knn = KNN_classifier()
 knn.feed_data(full_dataset)
 print(knn.predict([3,3,3]))
+
+
 
 
