@@ -16,8 +16,11 @@ class Custom_KNN_Classifier(KNN_classifier):
         super().__init__()
         
         self.k = k
+        
+    def __str__(self) -> str:
+        return f"KNN classifier with k={self.k}"
 
-    def predict(self, pred_point: Iterable[int | float]) -> str:
+    def predict(self, pred_point: Iterable[int | float], verbose: bool = False) -> str:
         """Here the class uses the KNN algorithm to predict whether class a particular point belongs to"""
 
         if self.data.shape[1]-1 != len(pred_point):
@@ -44,10 +47,6 @@ class Custom_KNN_Classifier(KNN_classifier):
             neighbor_distance_subset[tuple(distance_neigbor_dict[next_closest_distance])] = next_closest_distance
             index+=1
             
-            
-            
-            
-        
         # get furthest neighbor
         furthest_distance = max(neighbor_distance_subset.values())
         class_percentage_dict: dict[str: float] = {}
@@ -69,7 +68,12 @@ class Custom_KNN_Classifier(KNN_classifier):
         #    print(f"this neighbor's weight = {(furthest_distance - neighbor_distance_subset[neighbor])/furthest_distance} from class: {neighbor[-1]}")
         #print(class_percentage_dict)
         #print(class_proportion_dict)
-    
+        if verbose:
+            print(f"-"*20)
+            for label in class_proportion_dict:
+                print(f"{label} has a class proportion of: {round(number=class_proportion_dict[label], ndigits=2)} and a total weight of: {class_percentage_dict[label]}")
+            print(f"-"*20)
+            
         for label in class_proportion_dict:
             class_proportion_dict[label] /= self.k
         
@@ -79,13 +83,16 @@ class Custom_KNN_Classifier(KNN_classifier):
         
         for label in class_percentage_dict:
             score = class_percentage_dict[label] * class_proportion_dict[label]
+            if verbose:
+                print(f"{label} has a strength of: {score}")
             if score > highest_score:
                 highest_score = score
                 highest_class = label
-                
+        if verbose:
+            print("-"*20)
         return highest_class
         
-            
+"""            
 dataset = np.random.randint(low = -5, high = 100, size= [50,2])
 colors: list = []
 for _ in range(1,51):
@@ -108,7 +115,7 @@ knn_custom.predict(pred_point=np.array([5,7]))
 dataframe = pd.DataFrame(data=dataset)
 
 dataframe.to_csv("some_dataset.csv")
-
+"""
 
 
 
