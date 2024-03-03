@@ -115,9 +115,11 @@ class KNN_classifier:
         
         return highest_class
     
+    
+    
 
 dataset: np.ndarray = np.random.randint(low=0, high = 10, size=[20,3])
-print(dataset.shape)
+# print(dataset.shape)
 labels: List[str] = []
 
 for _ in range(0,dataset.shape[0]):
@@ -135,7 +137,7 @@ for _ in range(0,dataset.shape[0]):
 full_dataset = np.column_stack((dataset, labels))
 knn = KNN_classifier()
 knn.feed_data(full_dataset)
-print(knn.predict([3,3,3]))
+# print(knn.predict([3,3,3]))
 
 
 
