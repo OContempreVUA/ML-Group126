@@ -4,9 +4,10 @@ import pandas as pd
 from IPython.display import display, Math
 from typing import Iterable, List, Dict, Tuple, Union, Optional
 import math
+from typing import Union
 import random as rand
 import matplotlib.pyplot as mpp
-from knn_algorithm import KNN_classifier, K_Error, DimensionalityError, euclidian_distance2
+from .knn_algorithm import KNN_classifier, K_Error, DimensionalityError, euclidian_distance2
 import random
 
 class Custom_KNN_Classifier(KNN_classifier):
@@ -20,7 +21,7 @@ class Custom_KNN_Classifier(KNN_classifier):
     def __str__(self) -> str:
         return f"KNN classifier with k={self.k}"
 
-    def predict(self, pred_point: Iterable[int | float], verbose: bool = False) -> str:
+    def predict(self, pred_point: Iterable[Union[int, float]], verbose: bool = False) -> str:
         """Here the class uses the KNN algorithm to predict whether class a particular point belongs to"""
 
         if self.data.shape[1]-1 != len(pred_point):
